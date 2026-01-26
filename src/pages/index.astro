@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import { SITE_BASE, SocialLinks } from '../consts'
+import { SocialLinks } from '../consts'
 import { Icon } from 'astro-icon/components'
 import BlogCard from '../components/BlogCard.astro'
 import { getCollection } from 'astro:content'
@@ -15,11 +15,11 @@ const posts = (await getCollection('blog'))
 		class="app-container flex flex-col gap-12 justify-center py-36 md:py-48 pt-44 md:pt-56 relative"
 	>
 		<div>
-			<p class="block text-3xl opacity-70 mt-9 mb-4">Welcome to</p>
-			<h1 class="text-8xl font-bold leading-none">Saral Theme</h1>
+			<p class="block text-3xl opacity-70 mt-9 mb-4">👋 Hi, I'm</p>
+			<h1 class="text-8xl font-bold leading-none">Greivin Cruz Ríos</h1>
 		</div>
 		<p class="text-2xl max-w-2xl font-light leading-normal">
-			A simple theme for personal blog sites, created for Astro framework.
+			JavaScript FullStack Developer & AI Enthusiast from San José, Costa Rica
 		</p>
 		<div class="flex flex-wrap gap-8">
 			{
@@ -42,7 +42,7 @@ const posts = (await getCollection('blog'))
 		<div class="posts-grid-container">
 			{posts.map((post) => <BlogCard post={post} />)}
 		</div>
-		<a class="btn-secondary" href={`${SITE_BASE}/blog`}
+		<a class="btn-secondary" href="/blog"
 			>Read All
 			<Icon size={20} name="mdi:arrow-right" />
 		</a>
@@ -53,10 +53,12 @@ const posts = (await getCollection('blog'))
 		<div class="space-y-6">
 			<h2 class="section-title">About Me</h2>
 			<p class="text-lg max-w-xl pb-4">
-				A brief introduction about yourself. You can include your profession,
-				hobbies, interests, or anything you'd like visitors to know about you.
+				Passionate software developer with expertise in full-stack JavaScript
+				development and AI. Specializing in modern web applications using
+				React.js, Vue.js, Node.js, and .NET Core. Currently working with
+				Progranet & Bemantis Technologies in Costa Rica.
 			</p>
-			<a class="btn-secondary" href={`${SITE_BASE}/about`}
+			<a class="btn-secondary" href="/about"
 				>Go to About
 				<Icon size={20} name="mdi:arrow-right" />
 			</a>
@@ -64,20 +66,20 @@ const posts = (await getCollection('blog'))
 		<div class="space-y-6">
 			<h2 class="section-title">Get in touch</h2>
 			<p class="text-lg max-w-xl">
-				Use the buttons below for my resume & email.
+				Interested in collaborating on Node.js projects or exploring new
+				technologies.
 			</p>
 			<div class="flex flex-wrap mt-auto space-x-4">
-				<a
-					class="btn-primary"
-					href="mailto:example@email.com"
-					download
-					target="_blank"
-					>Get in touch
+				<a class="btn-primary" href="mailto:gcruzr@gmail.com" target="_blank"
+					>Email Me
 					<Icon height={20} name="mdi:email" />
 				</a>
-				<a class="btn-secondary" href="https://example.com" target="_blank"
-					>Download Resume
-					<Icon height={20} name="mdi:arrow-collapse-down" />
+				<a
+					class="btn-secondary"
+					href="https://github.com/gcruzrios"
+					target="_blank"
+					>Visit GitHub
+					<Icon height={20} name="mdi:github" />
 				</a>
 			</div>
 		</div>
