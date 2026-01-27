@@ -12,27 +12,35 @@ const posts = (await getCollection('blog'))
 
 <BaseLayout>
 	<main
-		class="app-container flex flex-col gap-12 justify-center py-36 md:py-48 pt-44 md:pt-56 relative"
+		class="app-container grid lg:grid-cols-2 gap-12 lg:gap-16 items-center py-36 md:py-48 pt-44 md:pt-56 relative"
 	>
-		<div>
-			<p class="block text-3xl opacity-70 mt-9 mb-4">👋 Hi, I'm</p>
-			<h1 class="text-8xl font-bold leading-none">Greivin Cruz Ríos</h1>
+		<div class="space-y-8">
+			<p class="block text-3xl opacity-70 mb-4">👋 Hi, I'm</p>
+			<h1 class="text-8xl font-bold leading-none">Greivin Cruz</h1>
+			<p class="text-2xl max-w-2xl font-light leading-normal">
+				JavaScript FullStack Developer & AI Enthusiast from San José, Costa Rica
+			</p>
+			<div class="flex flex-wrap gap-8 mt-6">
+				{
+					SocialLinks.map((link) => (
+						<a
+							class="text-xl text-primary dark:text-primary-dark underline hover:underline underline-offset-4"
+							href={link.url}
+							target="_blank"
+						>
+							{link.name}
+						</a>
+					))
+				}
+			</div>
 		</div>
-		<p class="text-2xl max-w-2xl font-light leading-normal">
-			JavaScript FullStack Developer & AI Enthusiast from San José, Costa Rica
-		</p>
-		<div class="flex flex-wrap gap-8">
-			{
-				SocialLinks.map((link) => (
-					<a
-						class="text-xl text-primary dark:text-primary-dark underline hover:underline underline-offset-4"
-						href={link.url}
-						target="_blank"
-					>
-						{link.name}
-					</a>
-				))
-			}
+		<div class="flex justify-center lg:justify-end mt-8 lg:mt-0">
+			<img
+				src="/src/assets/hero/pexels-googledeepmind-18069813.jpg"
+				alt="AI generated abstract neural network visualization"
+				class="w-[560px] h-[400px] object-cover rounded-lg shadow-lg"
+				loading="eager"
+			/>
 		</div>
 	</main>
 
