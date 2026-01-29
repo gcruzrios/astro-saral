@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro'
-import { SocialLinks } from '../consts'
+import { SocialLinks, SITE_BASE } from '../consts'
 import { Icon } from 'astro-icon/components'
 import BlogCard from '../components/BlogCard.astro'
 import { getCollection } from 'astro:content'
@@ -50,7 +50,7 @@ const posts = (await getCollection('blog'))
 		<div class="posts-grid-container">
 			{posts.map((post) => <BlogCard post={post} />)}
 		</div>
-		<a class="btn-secondary" href="/blog"
+		<a class="btn-secondary" href={`${SITE_BASE}blog`}
 			>Read All
 			<Icon size={20} name="mdi:arrow-right" />
 		</a>
@@ -66,7 +66,7 @@ const posts = (await getCollection('blog'))
 				React.js, Vue.js, Node.js, and .NET Core. Currently working with
 				Progranet & Bemantis Technologies in Costa Rica.
 			</p>
-			<a class="btn-secondary" href="/about"
+			<a class="btn-secondary" href={`${SITE_BASE}about`}
 				>Go to About
 				<Icon size={20} name="mdi:arrow-right" />
 			</a>

@@ -1,15 +1,17 @@
 ---
 import type { HTMLAttributes } from 'astro/types'
+import { SITE_BASE } from '../consts'
 
 type Props = HTMLAttributes<'a'>
 
 const { href, class: className, ...props } = Astro.props
 
 const { pathname } = Astro.url
+const blogPath = `${SITE_BASE}blog`
 const isActive =
 	href === pathname ||
 	href === pathname.replace(/\/$/, '') ||
-	(pathname.startsWith('/blog') && href === '/blog')
+	(pathname.startsWith(blogPath) && href === blogPath)
 ---
 
 <a href={href} class:list={[className, { active: isActive }]} {...props}>
