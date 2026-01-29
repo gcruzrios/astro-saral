@@ -46,7 +46,7 @@ const posts = (await getCollection('blog'))
 
 	<!-- Recent Posts Section -->
 	<section class="app-container">
-		<h2 class="section-title">Recent Posts</h2>
+		<h2 class="section-title">Articles of Interest</h2>
 		<div class="posts-grid-container">
 			{posts.map((post) => <BlogCard post={post} />)}
 		</div>

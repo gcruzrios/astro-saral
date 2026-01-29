@@ -15,9 +15,9 @@ const coverImagePath = `/src/assets/blogimages/${post.slug}/cover.jpg`
 
 <a
 	href={`${SITE_BASE}blog/${post.slug}/`}
-	class="flex flex-col gap-4 pb-8 h-full group transition-colors"
+	class="flex flex-col gap-4 p-4 h-full group transition-colors border border-gray-200 dark:border-gray-700 rounded-lg"
 >
-	{
+	<!-- {
 		blogImages[coverImagePath] && (
 			<Image
 				src={blogImages[coverImagePath]()}
@@ -25,15 +25,17 @@ const coverImagePath = `/src/assets/blogimages/${post.slug}/cover.jpg`
 				class="object-cover rounded-xl aspect-video"
 			/>
 		)
-	}
-	<h4
-		class="text-2xl font-semibold group-hover:text-primary dark:group-hover:text-primary-dark group-hover:underline transition-colors"
-	>
-		{post.data.title}
-	</h4>
-	<p class="line-clamp-3 opacity-80">
-		{post.data.description}
-	</p>
+	} -->
+	<div class="flex flex-col gap-2">
+		<h4
+			class="text-2xl font-semibold group-hover:text-primary dark:group-hover:text-primary-dark group-hover:underline transition-colors"
+		>
+			{post.data.title}
+		</h4>
+		<p class="line-clamp-3 opacity-80">
+			{post.data.description}
+		</p>
+	</div>
 	<p class="uppercase text-sm mt-auto tracking-tight">
 		<FormattedDate date={post.data.pubDate} />
 	</p>
