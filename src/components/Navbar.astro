@@ -17,7 +17,7 @@ import LogoSVG from '../assets/logo.svg'
 					WebsiteLinks.map((link) => (
 						<NavbarLink
 							class="text-lg"
-							href={link.url === '' ? SITE_BASE : `/${link.url}`}
+							href={link.url === '' ? SITE_BASE : link.url}
 							target={link.url.charAt(0) === 'h' ? '_blank' : '_self'}
 						>
 							{link.name}
@@ -53,7 +53,7 @@ import LogoSVG from '../assets/logo.svg'
 						WebsiteLinks.map((link) => (
 							<NavbarLink
 								class="text-4xl font-light"
-								href={link.url === '' ? SITE_BASE : `/${link.url}`}
+								href={link.url === '' ? SITE_BASE : link.url}
 							>
 								{link.name}
 							</NavbarLink>

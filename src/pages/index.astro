@@ -4,6 +4,7 @@ import { SocialLinks, SITE_BASE } from '../consts'
 import { Icon } from 'astro-icon/components'
 import BlogCard from '../components/BlogCard.astro'
 import { getCollection } from 'astro:content'
+import heroImage from '../assets/hero/pexels-googledeepmind-18069813.jpg'
 
 const posts = (await getCollection('blog'))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -36,10 +37,14 @@ const posts = (await getCollection('blog'))
 		</div>
 		<div class="flex justify-center lg:justify-end mt-8 lg:mt-0">
 			<img
-				src="/src/assets/hero/pexels-googledeepmind-18069813.jpg"
+				src={heroImage.src}
+				srcset={heroImage.src}
+				sizes="(max-width: 768px) 100vw, 560px"
 				alt="AI generated abstract neural network visualization"
-				class="w-[560px] h-[400px] object-cover rounded-lg shadow-lg"
+				class="w-full max-w-[560px] h-[400px] object-cover rounded-lg shadow-lg"
 				loading="eager"
+				width={560}
+				height={400}
 			/>
 		</div>
 	</main>
