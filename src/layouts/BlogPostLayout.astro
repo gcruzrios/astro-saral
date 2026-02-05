@@ -28,6 +28,7 @@ const {
 import BaseLayout from './BaseLayout.astro'
 import { Image } from 'astro:assets'
 import { Icon } from 'astro-icon/components'
+import '../styles/blog.css'
 
 const blogImages = import.meta.glob<{ default: ImageMetadata }>(
 	'/src/assets/blogimages/**/*.{jpeg,jpg,png,gif}'
@@ -46,12 +47,20 @@ const lastModified = dayjs(remarkPluginFrontmatter.lastModified)
 			<div
 				class="app-container flex flex-col lg:flex-row-reverse justify-between gap-8 py-24 relative"
 			>
-				<div class="md:w-1/4 relative">
+				<div class="md:w-1/4 relative order-1 lg:order-0">
+					<div class="sticky top-0 md:top-28 lg:hidden">
+						<details class="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 mb-4">
+							<summary class="cursor-pointer font-semibold text-gray-900 dark:text-gray-100">On this page</summary>
+							<div class="mt-4">
+								<TableOfContents headings={headings} />
+							</div>
+						</details>
+					</div>
 					<div class="sticky top-0 md:top-28 hidden lg:block">
 						<TableOfContents headings={headings} />
 					</div>
 				</div>
-				<div class="grow w-full md:max-w-[75ch]">
+				<div class="grow w-full md:max-w-[75ch] order-0 lg:order-1">
 					<div>
 						<h1 class="text-4xl sm:text-5xl leading-snug pt-12 font-bold">
 							{title}
@@ -106,10 +115,12 @@ const lastModified = dayjs(remarkPluginFrontmatter.lastModified)
 							)
 						}
 					</div>
-					<div
-						class="prose prose-neutral prose-lg md:prose-xl dark:prose-invert prose-img:rounded-xl prose-figure:text-center prose-img:mx-auto"
-					>
-						<slot />
+					<div class="blog-content">
+<div
+							class="prose prose-neutral prose-lg md:prose-xl dark:prose-invert prose-img:rounded-xl prose-figure:text-center prose-img:mx-auto max-w-none prose-headings:scroll-mt-20 prose-h2:text-2xl prose-h2:font-bold prose-h2:mt-8 prose-h2:mb-4 prose-h3:text-xl prose-h3:font-semibold prose-h3:mt-6 prose-h3:mb-3 prose-h4:text-lg prose-h4:font-medium prose-h4:mt-4 prose-h4:mb-2 prose-p:leading-relaxed prose-p:mb-4 prose-ul:my-4 prose-li:my-1 prose-ol:my-4 prose-blockquote:border-l-4 prose-blockquote:border-primary prose-blockquote:pl-4 prose-blockquote:italic prose-code:bg-gray-100 prose-code:px-1 prose-code:rounded prose-code:text-sm dark:prose-code:bg-gray-800 prose-pre:bg-gray-100 prose-pre:rounded-lg prose-pre:p-4 dark:prose-pre:bg-gray-800 prose-a:text-primary prose-a:no-underline hover:prose-a:underline prose-strong:font-semibold"
+						>
+							<slot />
+						</div>
 					</div>
 
 					<!-- Suggest edit -->

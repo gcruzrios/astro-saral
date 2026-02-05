@@ -1,0 +1,141 @@
+/* Blog-specific styles */
+.blog-content {
+	/* Custom scroll offset for anchored headings */
+	scroll-padding-top: 5rem;
+}
+
+/* TOC active state */
+.toc-link.active {
+	background-color: rgba(99, 102, 241, 0.1);
+	color: rgb(99, 102, 241);
+}
+
+.dark .toc-link.active {
+	background-color: rgba(99, 102, 241, 0.2);
+	color: rgb(165, 180, 252);
+}
+
+/* Smooth heading transitions */
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+	scroll-margin-top: 5rem;
+	position: relative;
+}
+
+.prose h2:hover .header-anchor,
+.prose h3:hover .header-anchor,
+.prose h4:hover .header-anchor,
+.prose h5:hover .header-anchor,
+.prose h6:hover .header-anchor {
+	opacity: 1;
+}
+
+.header-anchor {
+	opacity: 0;
+	transition: opacity 0.2s;
+	margin-left: 0.5rem;
+	color: rgb(99, 102, 241);
+	text-decoration: none;
+}
+
+.dark .header-anchor {
+	color: rgb(165, 180, 252);
+}
+
+/* Enhanced code blocks */
+.prose pre {
+	background-color: rgb(31, 41, 55);
+	color: rgb(243, 244, 246);
+}
+
+.dark .prose pre {
+	background-color: rgb(17, 24, 39);
+}
+
+.prose code {
+	background-color: rgb(243, 244, 246);
+	color: rgb(17, 24, 39);
+	padding: 0.125rem 0.25rem;
+	border-radius: 0.25rem;
+	font-size: 0.875rem;
+}
+
+.dark .prose code {
+	background-color: rgb(31, 41, 55);
+	color: rgb(243, 244, 246);
+}
+
+/* Better list styling */
+.prose ul > li::marker {
+	color: rgb(99, 102, 241);
+}
+
+.dark .prose ul > li::marker {
+	color: rgb(165, 180, 252);
+}
+
+.prose ol > li::marker {
+	color: rgb(99, 102, 241);
+	font-weight: 600;
+}
+
+.dark .prose ol > li::marker {
+	color: rgb(165, 180, 252);
+}
+
+/* Enhanced blockquotes */
+.prose blockquote {
+	border-left: 4px solid rgb(99, 102, 241);
+	background-color: rgb(249, 250, 251);
+	padding: 0.5rem 1rem;
+	border-radius: 0 0.5rem 0.5rem 0;
+	font-style: italic;
+}
+
+.dark .prose blockquote {
+	border-left-color: rgb(165, 180, 252);
+	background-color: rgb(31, 41, 55);
+}
+
+/* Table styling */
+.prose table {
+	border-collapse: collapse;
+	border: 1px solid rgb(209, 213, 219);
+}
+
+.dark .prose table {
+	border-color: rgb(55, 65, 81);
+}
+
+.prose th {
+	border: 1px solid rgb(209, 213, 219);
+	background-color: rgb(243, 244, 246);
+	padding: 0.5rem 1rem;
+	text-align: left;
+	font-weight: 600;
+}
+
+.dark .prose th {
+	border-color: rgb(55, 65, 81);
+	background-color: rgb(31, 41, 55);
+}
+
+.prose td {
+	border: 1px solid rgb(209, 213, 219);
+	padding: 0.5rem 1rem;
+}
+
+.dark .prose td {
+	border-color: rgb(55, 65, 81);
+}
+
+.prose tr:nth-child(even) {
+	background-color: rgb(249, 250, 251);
+}
+
+.dark .prose tr:nth-child(even) {
+	background-color: rgb(31, 41, 55);
+}

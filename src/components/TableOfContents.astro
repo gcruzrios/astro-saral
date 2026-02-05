@@ -7,42 +7,91 @@ interface Props {
 
 const { headings } = Astro.props
 
-// Group headings: h2 as top-level, h3 as nested under previous h2
+// Enhanced TOC structure supporting multiple heading levels
 interface TOCHeading extends MarkdownHeading {
-	children: MarkdownHeading[]
+	children: TOCHeading[]
 }
-const toc: TOCHeading[] = []
-let lastH2: TOCHeading | null = null
-for (const heading of headings) {
-	if (heading.depth === 2) {
-		lastH2 = { ...heading, children: [] }
-		toc.push(lastH2)
-	} else if (heading.depth === 3 && lastH2) {
-		lastH2.children.push(heading)
+
+const buildTOC = (headings: MarkdownHeading[]): TOCHeading[] => {
+	const toc: TOCHeading[] = []
+	const stack: TOCHeading[] = []
+
+	for (const heading of headings) {
+		const newHeading: TOCHeading = { ...heading, children: [] }
+
+		// Remove items from stack that are deeper or equal to current heading
+		while (stack.length > 0 && stack[stack.length - 1].depth >= heading.depth) {
+			stack.pop()
+		}
+
+		if (stack.length === 0) {
+			// Top-level heading
+			toc.push(newHeading)
+		} else {
+			// Nested heading
+			stack[stack.length - 1].children.push(newHeading)
+		}
+
+		stack.push(newHeading)
 	}
+
+	return toc
 }
+
+const toc = buildTOC(headings)
 ---
 
 {
 	toc.length > 0 ? (
-		<nav class="py-12 rounded">
-			<h2 class="text-2xl mr-2 pb-1 mb-3 font-bold">On This Page</h2>
-			<ul class="space-y-3">
-				{toc.map((h2) => (
+		<nav class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+			<h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">On this page</h2>
+			<ul class="space-y-2">
+				{toc.map((heading) => (
 					<li>
-						<a class="hover:underline underline-offset-4" href={`#${h2.slug}`}>
-							{h2.text}
+						<a 
+							class="block py-2 px-3 rounded text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary dark:hover:text-primary-dark transition-colors text-sm font-medium" 
+							href={`#${heading.slug}`}
+						>
+							{heading.text}
 						</a>
-						{h2.children.length > 0 && (
-							<ul class="ml-4 mt-2 space-y-2 border-l border-gray-300 dark:border-gray-700 pl-4">
-								{h2.children.map((h3) => (
+						{heading.children.length > 0 && (
+							<ul class="ml-4 mt-1 space-y-1">
+								{heading.children.map((child) => (
 									<li>
 										<a
-											class="hover:underline underline-offset-4 text-sm opacity-80"
-											href={`#${h3.slug}`}
+											class="block py-1 px-3 rounded text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary dark:hover:text-primary-dark transition-colors text-xs"
+											href={`#${child.slug}`}
 										>
-											{h3.text}
+											{child.text}
 										</a>
+										{child.children.length > 0 && (
+											<ul class="ml-4 mt-1 space-y-1">
+												{child.children.map((grandchild) => (
+													<li>
+														<a
+															class="block py-1 px-3 rounded text-gray-500 dark:text-gray-500 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary dark:hover:text-primary-dark transition-colors text-xs"
+															href={`#${grandchild.slug}`}
+														>
+															{grandchild.text}
+														</a>
+														{grandchild.children.length > 0 && (
+															<ul class="ml-4 mt-1 space-y-1">
+																{grandchild.children.map((ggchild) => (
+																	<li>
+																		<a
+																			class="block py-1 px-3 rounded text-gray-400 dark:text-gray-600 hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-primary dark:hover:text-primary-dark transition-colors text-xs"
+																			href={`#${ggchild.slug}`}
+																		>
+																			{ggchild.text}
+																		</a>
+																	</li>
+																))}
+															</ul>
+														)}
+													</li>
+												))}
+											</ul>
+										)}
 									</li>
 								))}
 							</ul>
@@ -52,6 +101,9 @@ for (const heading of headings) {
 			</ul>
 		</nav>
 	) : (
-		<div />
+		<div class="bg-gray-50 dark:bg-gray-800 p-6 rounded-lg border border-gray-200 dark:border-gray-700">
+			<h2 class="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">On this page</h2>
+			<p class="text-gray-500 dark:text-gray-400 text-sm">No headings found</p>
+		</div>
 	)
 }

@@ -6,8 +6,14 @@ import BlogCard from '../components/BlogCard.astro'
 import { getCollection } from 'astro:content'
 import heroImage from '../assets/hero/pexels-googledeepmind-18069813.jpg'
 
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+// Get the 4 latest blog posts from Astro content
+const allPosts = await getCollection('blog')
+const posts = allPosts
+	.sort((a, b) => {
+		const dateA = a.data?.pubDate ? a.data.pubDate.valueOf() : Date.now()
+		const dateB = b.data?.pubDate ? b.data.pubDate.valueOf() : Date.now()
+		return dateB - dateA
+	})
 	.slice(0, 4)
 ---
 
@@ -53,7 +59,7 @@ const posts = (await getCollection('blog'))
 	<section class="app-container">
 		<h2 class="section-title">Articles of Interest</h2>
 		<div class="posts-grid-container">
-			{posts.map((post) => <BlogCard post={post} />)}
+			{posts.map((post: any) => <BlogCard post={post} />)}
 		</div>
 		<a class="btn-secondary" href={`${SITE_BASE}blog`}
 			>Read All

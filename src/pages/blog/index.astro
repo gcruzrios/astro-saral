@@ -3,8 +3,18 @@ import { getCollection } from 'astro:content'
 import BlogCard from '../../components/BlogCard.astro'
 import BaseLayout from '../../layouts/BaseLayout.astro'
 
-const posts = (await getCollection('blog'))
-	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+// Get only Astro content posts
+const astroPosts = await getCollection('blog')
+
+// Sort posts by date (newest first)
+const allPosts = astroPosts.sort((a, b) => {
+	const dateA = a.data?.pubDate ? a.data.pubDate.valueOf() : Date.now()
+	const dateB = b.data?.pubDate ? b.data.pubDate.valueOf() : Date.now()
+	return dateB - dateA
+}).filter(post => {
+	// Filter out invalid posts
+	return post && post.slug && post.data && post.data.title
+})
 ---
 
 <BaseLayout>
@@ -19,7 +29,7 @@ const posts = (await getCollection('blog'))
 	<section class="app-container py-12">
 		<ul class="posts-grid-container">
 			{
-				posts.map((post) => (
+				allPosts.map((post) => (
 					<li>
 						<BlogCard post={post} />
 					</li>
