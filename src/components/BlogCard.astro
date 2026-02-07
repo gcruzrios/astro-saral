@@ -30,6 +30,7 @@ const hasValidContent = title && title !== 'Untitled'
 			href={`${SITE_BASE}blog/${post.slug}/`}
 			class="block p-4 group transition-colors border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md"
 		>
+<<<<<<< HEAD
 			{(coverAsset || coverImage) && (
 				/* cover image kept inside card padding to match example; prefer optimized local asset */
 				<div class="mb-3 overflow-hidden rounded-lg aspect-video">
@@ -48,6 +49,18 @@ const hasValidContent = title && title !== 'Untitled'
 							loading="lazy"
 						/>
 					)}
+=======
+			{coverImage && (
+				<div class="-mx-4 -mt-4 mb-3 overflow-hidden rounded-t-lg aspect-video">
+					<img
+						src={coverImage}
+						alt={title}
+						class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+						loading="lazy"
+						width="400"
+						height="225"
+					/>
+>>>>>>> cddcb26 (Bout page with image)
 				</div>
 			)}
 			<div class="flex items-start gap-3">
