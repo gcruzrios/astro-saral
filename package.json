@@ -12,7 +12,7 @@
 		"lint:fix": "eslint . --ext .js,.jsx,.ts,.tsx,.astro --fix",
 		"format": "prettier --write .",
 		"format:check": "prettier --check .",
-		"generate-blog": "node scripts/generate-blog-posts.js"
+		"generate-blog": "node scripts/convert-wordpress.mjs"
 	},
 	"dependencies": {
 		"@astrojs/check": "^0.9.4",

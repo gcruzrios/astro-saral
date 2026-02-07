@@ -6,7 +6,11 @@ import BlogCard from '../components/BlogCard.astro'
 import { getCollection } from 'astro:content'
 import heroImage from '../assets/hero/pexels-googledeepmind-18069813.jpg'
 
-// Get the 4 latest blog posts from Astro content
+// For production deployed to /blog/ subdirectory, posts are at root level
+// For development, posts are in /blog/ directory
+const blogUrlPrefix = SITE_BASE.endsWith('/blog/') ? SITE_BASE.slice(0, -6) : `${SITE_BASE}blog`
+
+// Get the 4 latest blog posts (now includes converted WordPress posts)
 const allPosts = await getCollection('blog')
 const posts = allPosts
 	.sort((a, b) => {
@@ -14,7 +18,7 @@ const posts = allPosts
 		const dateB = b.data?.pubDate ? b.data.pubDate.valueOf() : Date.now()
 		return dateB - dateA
 	})
-	.slice(0, 4)
+	.slice(0, 4) // Show 4 latest posts
 ---
 
 <BaseLayout>
@@ -61,7 +65,7 @@ const posts = allPosts
 		<div class="posts-grid-container">
 			{posts.map((post: any) => <BlogCard post={post} />)}
 		</div>
-		<a class="btn-secondary" href={`${SITE_BASE}blog`}
+		<a class="btn-secondary" href={blogUrlPrefix}
 			>Read All
 			<Icon size={20} name="mdi:arrow-right" />
 		</a>

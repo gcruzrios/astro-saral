@@ -7,7 +7,10 @@ type Props = HTMLAttributes<'a'>
 const { href, class: className, ...props } = Astro.props
 
 const { pathname } = Astro.url
-const blogPath = `${SITE_BASE}blog`
+// For production deployed to /blog/ subdirectory, posts are at root level
+// For development, posts are in /blog/ directory
+const blogUrlPrefix = SITE_BASE.endsWith('/blog/') ? SITE_BASE.slice(0, -6) : `${SITE_BASE}blog`
+const blogPath = blogUrlPrefix
 const isActive =
 	href === pathname ||
 	href === pathname.replace(/\/$/, '') ||

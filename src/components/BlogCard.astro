@@ -1,32 +1,65 @@
 ---
 import { SITE_BASE } from '@/consts'
 
-	const { post } = Astro.props
+const { post } = Astro.props
 
-	// Extract properties from Astro content
-	const title = post.data?.title || 'Untitled'
-	const excerpt = post.data?.description || ''
-	
-	// Only render if we have valid content
-	const hasValidContent = title && title !== 'Untitled'
+// Extract properties from Astro content
+const title = post.data?.title || 'Untitled'
+const excerpt = post.data?.description || ''
+const coverImage = post.data?.coverImage
+
+// Try to get small thumbnail image from assets/blogimages folder
+let smallThumbnail = null
+try {
+	smallThumbnail = await import(`../assets/blogimages/${post.slug}/cover.jpg`)
+} catch (e) {
+	// Image doesn't exist, continue without it
+}
+
+// Only render if we have valid content
+const hasValidContent = title && title !== 'Untitled'
 ---
 
-{hasValidContent && (
-	<a
-		href={`${SITE_BASE}${post.slug}/`}
-		class="block p-4 group transition-colors border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md"
-	>
-		<div>
-			<h4
-				class="text-lg font-semibold group-hover:text-primary dark:group-hover:text-primary-dark group-hover:underline transition-colors"
-			>
-				{title}
-			</h4>
-			{excerpt && (
-				<p class="line-clamp-3 opacity-80 text-sm leading-relaxed mt-1">
-					{excerpt}
-				</p>
+{
+	hasValidContent && (
+		<a
+			href={`${SITE_BASE}blog/${post.slug}/`}
+			class="block p-4 group transition-colors border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md"
+		>
+			{coverImage && (
+				<div class="mb-3 overflow-hidden rounded">
+					<img
+						src={coverImage}
+						alt={title}
+						class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105"
+						loading="lazy"
+						width="400"
+						height="225"
+					/>
+				</div>
 			)}
-		</div>
-	</a>
-)}
+			<div class="flex items-start gap-3">
+				{smallThumbnail && (
+					<img
+						src={smallThumbnail.default.src}
+						alt={title}
+						class="w-12 h-12 rounded-lg object-cover flex-shrink-0 mt-1"
+						loading="lazy"
+						width="48"
+						height="48"
+					/>
+				)}
+				<div class="flex-1 min-w-0">
+					<h4 class="text-lg font-semibold group-hover:text-primary dark:group-hover:text-primary-dark group-hover:underline transition-colors">
+						{title}
+					</h4>
+					{excerpt && (
+						<p class="line-clamp-3 opacity-80 text-sm leading-relaxed mt-2">
+							{excerpt}
+						</p>
+					)}
+				</div>
+			</div>
+		</a>
+	)
+}
