@@ -1,5 +1,7 @@
 ---
 import { SITE_BASE } from '@/consts'
+import { Image } from 'astro:assets'
+import type { ImageMetadata } from 'astro'
 
 const { post } = Astro.props
 
@@ -8,12 +10,14 @@ const title = post.data?.title || 'Untitled'
 const excerpt = post.data?.description || ''
 const coverImage = post.data?.coverImage
 
-// Try to get small thumbnail image from assets/blogimages folder
-let smallThumbnail = null
-try {
-	smallThumbnail = await import(`../assets/blogimages/${post.slug}/cover.jpg`)
-} catch (e) {
-	// Image doesn't exist, continue without it
+// Try to resolve a local asset under /src/assets/blogimages/<slug>/cover.jpg
+const blogImages = import.meta.glob<{ default: ImageMetadata }>(
+	'/src/assets/blogimages/**/*.{jpeg,jpg,png,gif}'
+)
+const coverImagePath = `/src/assets/blogimages/${post.slug}/cover.jpg`
+let coverAsset: null | (() => Promise<{ default: ImageMetadata }>) = null
+if (blogImages[coverImagePath]) {
+	coverAsset = blogImages[coverImagePath]
 }
 
 // Only render if we have valid content
@@ -26,29 +30,28 @@ const hasValidContent = title && title !== 'Untitled'
 			href={`${SITE_BASE}blog/${post.slug}/`}
 			class="block p-4 group transition-colors border border-gray-200 dark:border-gray-700 rounded-lg hover:shadow-md"
 		>
-			{coverImage && (
-				<div class="mb-3 overflow-hidden rounded">
-					<img
-						src={coverImage}
-						alt={title}
-						class="w-full h-56 object-cover transition-transform duration-300 group-hover:scale-105"
-						loading="lazy"
-						width="400"
-						height="225"
-					/>
+			{(coverAsset || coverImage) && (
+				/* cover image kept inside card padding to match example; prefer optimized local asset */
+				<div class="mb-3 overflow-hidden rounded-lg aspect-video">
+					{coverAsset ? (
+						<Image
+							src={coverAsset()}
+							alt={title}
+							class="w-full h-full object-cover rounded-lg"
+							loading="lazy"
+						/>
+					) : (
+						<img
+							src={coverImage}
+							alt={title}
+							class="w-full h-full object-cover rounded-lg"
+							loading="lazy"
+						/>
+					)}
 				</div>
 			)}
 			<div class="flex items-start gap-3">
-				{smallThumbnail && (
-					<img
-						src={smallThumbnail.default.src}
-						alt={title}
-						class="w-12 h-12 rounded-lg object-cover flex-shrink-0 mt-1"
-						loading="lazy"
-						width="48"
-						height="48"
-					/>
-				)}
+				{/* small thumbnail removed */}
 				<div class="flex-1 min-w-0">
 					<h4 class="text-lg font-semibold group-hover:text-primary dark:group-hover:text-primary-dark group-hover:underline transition-colors">
 						{title}
